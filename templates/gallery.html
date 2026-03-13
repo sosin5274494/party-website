@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1 style="font-size: 32px;">📸 相册</h1>
+    {% if session.get('user_id') %}
+        <a href="{{ url_for('upload') }}" class="btn btn-primary">➕ 上传照片/视频</a>
+    {% endif %}
+</div>
+
+{% if media_list %}
+    <div class="gallery-grid">
+        {% for media in media_list %}
+            <div class="gallery-item">
+                {% if media.filetype == 'video' %}
+                    <video src="{{ url_for('static', filename='uploads/' + media.filename) }}" controls></video>
+                {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + media.filename) }}" alt="">
+                {% endif %}
+                <div class="gallery-overlay">
+                    <p class="gallery-uploader">📤 {{ media.uploader.nickname }}</p>
+                    {% if media.description %}
+                        <p style="font-size: 13px; margin-top: 5px;">{{ media.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📷</div>
+        <p>还没有照片和视频</p>
+        {% if session.get('user_id') %}
+            <a href="{{ url_for('upload') }}" class="btn btn-primary" style="margin-top: 20px;">上传第一张</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block title %}相册 - 阳光聚会圈{% endblock %}
