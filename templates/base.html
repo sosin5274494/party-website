@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}阳光聚会圈{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <span class="sun-icon">☀️</span>
+                <span class="logo-text">阳光聚会圈</span>
+            </div>
+            <nav class="main-nav">
+                <a href="{{ url_for('index') }}">首页</a>
+                <a href="{{ url_for('members') }}">成员</a>
+                <a href="{{ url_for('gallery') }}">相册</a>
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('create_event') }}">预约聚会</a>
+                    <a href="{{ url_for('profile') }}">我的资料</a>
+                    {% if session.get('is_admin') %}
+                        <a href="{{ url_for('admin') }}" class="admin-link">审核</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="logout-link">退出</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">登录</a>
+                    <a href="{{ url_for('register') }}" class="btn-primary">注册</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>☀️ 阳光聚会圈 - 让每一次相聚都值得期待</p>
+            <p class="copyright">© 2026 阳光聚会圈 · 温暖每一刻</p>
+        </div>
+    </footer>
+</body>
+</html>
