@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 25px;">
+        <div>
+            <div class="event-date" style="display: inline-block;">
+                {{ event.event_date.strftime('%Y年%m月%d日 %H:%M') }}
+            </div>
+            <h1 style="font-size: 36px; margin-top: 15px;">{{ event.title }}</h1>
+        </div>
+        
+        <div style="text-align: right; color: #9A8A7A;">
+            <p>👤 组织者: {{ event.creator.nickname }}</p>
+            <p>📅 创建于: {{ event.created_at.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+    
+    <div style="background: #FFF8F0; padding: 20px; border-radius: 12px; margin: 25px 0;">
+        <p style="font-size: 18px;">
+            <span style="color: #FF9500;">📍</span> 
+            <strong>{{ event.location }}</strong>
+        </p>
+    </div>
+    
+    {% if event.content %}
+        <div style="margin: 25px 0;">
+            <h3 style="margin-bottom: 15px;">📝 活动详情</h3>
+            <p style="color: #6B5344; line-height: 1.8; white-space: pre-wrap;">{{ event.content }}</p>
+        </div>
+    {% endif %}
+    
+    <div style="border-top: 2px solid #FFF5E6; padding-top: 25px; margin-top: 25px;">
+        <h3 style="margin-bottom: 20px;">👥 参加人员 ({{ event.participants|length }}人)</h3>
+        
+        {% if event.participants %}
+            <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                {% for p in event.participants %}
+                    <a href="{{ url_for('member_detail', user_id=p.user.id) }}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; background: #FFF8F0; padding: 10px 15px; border-radius: 30px;">
+                        <img src="{{ p.user.avatar }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                        <span>{{ p.user.nickname }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: #9A8A7A;">还没有人报名</p>
+        {% endif %}
+        
+        {% if session.get('user_id') %}
+            {% set participated = event.participants|selectattr('user_id')|list|length %}
+            {% set has_joined = false %}
+            {% for p in event.participants %}
+                {% if p.user_id == session.user_id %}
+                    {% set has_joined = true %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if has_joined %}
+                <p style="margin-top: 20px; color: #34C759; font-weight: 500;">✅ 你已经报名参加这个聚会</p>
+            {% else %}
+                <a href="{{ url_for('join_event', event_id=event.id) }}" class="btn btn-primary" style="margin-top: 20px;">🎯 报名参加</a>
+            {% endif %}
+        {% else %}
+            <p style="margin-top: 20px; color: #9A8A7A;">登录后可报名参加</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}{{ event.title }} - 阳光聚会圈{% endblock %}
