@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="font-size: 32px; margin-bottom: 30px;">👤 我的资料</h1>
+
+<div style="display: grid; grid-template-columns: 350px 1fr; gap: 40px;">
+    <div class="card" style="text-align: center;">
+        <img src="{{ user.avatar }}" alt="{{ user.nickname }}" id="avatar-preview" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid #FFD60A;">
+        
+        <div class="form-group" style="text-align: left;">
+            <label class="form-label">更换头像</label>
+            <input type="file" name="avatar" class="form-input" accept="image/*" onchange="previewAvatar(this)">
+        </div>
+    </div>
+    
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">昵称</label>
+                <input type="text" name="nickname" class="form-input" value="{{ user.nickname }}">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">技能介绍</label>
+                <textarea name="bio" class="form-textarea">{{ user.bio or '' }}</textarea>
+            </div>
+            
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: #3D2914;">📊 能力数值</h3>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">🍺 酒量等级 (1-10)</label>
+                    <input type="number" name="alcohol_level" class="form-input" min="1" max="10" value="{{ user.alcohol_level }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⚖️ 体重 (kg)</label>
+                    <input type="number" name="weight" class="form-input" min="30" max="200" value="{{ user.weight }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🎉 能喝几场</label>
+                    <input type="number" name="drink_sessions" class="form-input" min="1" value="{{ user.drink_sessions }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⏰ 能喝几小时</label>
+                    <input type="number" name="drink_hours" class="form-input" min="1" value="{{ user.drink_hours }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🔥 能连续几天作战</label>
+                    <input type="number" name="drink_days" class="form-input" min="1" value="{{ user.drink_days }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⭐ 受欢迎度 (1-10)</label>
+                    <input type="number" name="popularity" class="form-input" min="1" max="10" value="{{ user.popularity }}">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">保存</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatar-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}
+
+{% block title %}我的资料 - 阳光聚会圈{% endblock %}
