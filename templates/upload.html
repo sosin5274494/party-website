@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h1 style="font-size: 32px; margin-bottom: 30px;">📤 上传照片/视频</h1>
+    
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">选择文件 *</label>
+                <input type="file" name="file" class="form-input" accept="image/*,video/*" required style="padding: 12px;">
+                <p style="font-size: 14px; color: #9A8A7A; margin-top: 8px;">支持图片和视频，最大50MB</p>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">描述</label>
+                <textarea name="description" class="form-textarea" placeholder="这张照片/视频的故事~"></textarea>
+            </div>
+            
+            <div style="background: #FFF8F0; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <p style="color: #FF9500; font-weight: 500;">⚠️ 温馨提示</p>
+                <p style="color: #6B5344; font-size: 14px; margin-top: 8px;">上传后需要管理员审核，审核通过后才会公开展示</p>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">上传</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}上传 - 阳光聚会圈{% endblock %}
