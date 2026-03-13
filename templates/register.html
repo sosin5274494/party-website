@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="card auth-card">
+        <h1 class="auth-title">✨ 加入我们</h1>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">用户名 *</label>
+                <input type="text" name="username" class="form-input" required placeholder="唯一用户名">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">昵称 *</label>
+                <input type="text" name="nickname" class="form-input" required placeholder="显示昵称">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">密码 *</label>
+                <input type="password" name="password" class="form-input" required placeholder="登录密码">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">技能介绍</label>
+                <textarea name="bio" class="form-textarea" placeholder="介绍一下自己有什么技能~"></textarea>
+            </div>
+            
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: #3D2914;">📊 能力数值</h3>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">🍺 酒量等级 (1-10)</label>
+                    <input type="number" name="alcohol_level" class="form-input" min="1" max="10" value="5">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⚖️ 体重 (kg)</label>
+                    <input type="number" name="weight" class="form-input" min="30" max="200" value="70">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🎉 能喝几场</label>
+                    <input type="number" name="drink_sessions" class="form-input" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⏰ 能喝几小时</label>
+                    <input type="number" name="drink_hours" class="form-input" min="1" value="2">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🔥 能连续几天作战</label>
+                    <input type="number" name="drink_days" class="form-input" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">⭐ 受欢迎度 (1-10)</label>
+                    <input type="number" name="popularity" class="form-input" min="1" max="10" value="5">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">注册</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 25px; color: #6B5344;">
+            已有账号？<a href="{{ url_for('login') }}" style="color: #FF9500;">立即登录</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}注册 - 阳光聚会圈{% endblock %}
