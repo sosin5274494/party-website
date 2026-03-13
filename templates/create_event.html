@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 0 auto;">
+    <h1 style="font-size: 32px; margin-bottom: 30px;">🎉 预约聚会</h1>
+    
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">活动标题 *</label>
+                <input type="text" name="title" class="form-input" required placeholder="给聚会起个名字~">
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">活动时间 *</label>
+                    <input type="datetime-local" name="event_date" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">地点 *</label>
+                    <input type="text" name="location" class="form-input" required placeholder="在哪里聚会？">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">活动内容</label>
+                <textarea name="content" class="form-textarea" placeholder="介绍一下这次聚会的内容、安排..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">发布聚会</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}预约聚会 - 阳光聚会圈{% endblock %}
