@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero" style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #FFF5E6 0%, #FFF8F0 100%); border-radius: 20px; margin-bottom: 40px;">
+    <h1 style="font-size: 42px; margin-bottom: 20px; background: linear-gradient(135deg, #FF9500, #FFD60A); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        ☀️ 欢迎来到阳光聚会圈
+    </h1>
+    <p style="font-size: 20px; color: #6B5344; max-width: 600px; margin: 0 auto 30px;">
+        这里记录着每一次相聚的美好时光
+    </p>
+    {% if not session.get('user_id') %}
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <a href="{{ url_for('register') }}" class="btn btn-primary" style="padding: 15px 40px; font-size: 18px;">立即加入</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary" style="padding: 15px 40px; font-size: 18px;">登录</a>
+        </div>
+    {% endif %}
+</div>
+
+<h2 style="font-size: 28px; margin-bottom: 25px; color: #3D2914;">📅 近期聚会活动</h2>
+
+{% if events %}
+    <div class="grid grid-2">
+        {% for event in events %}
+            <a href="{{ url_for('event_detail', event_id=event.id) }}" class="card event-card">
+                <div class="event-date">
+                    {{ event.event_date.strftime('%Y年%m月%d日 %H:%M') }}
+                </div>
+                <h3 class="event-title">{{ event.title }}</h3>
+                <div class="event-meta">
+                    <span>📍 {{ event.location or '待定' }}</span>
+                    <span>👥 {{ event.participants|length }}人参加</span>
+                </div>
+                {% if event.content %}
+                    <p class="event-content">{{ event.content[:100] }}...</p>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🎉</div>
+        <p>还没有聚会活动</p>
+        {% if session.get('user_id') %}
+            <a href="{{ url_for('create_event') }}" class="btn btn-primary" style="margin-top: 20px;">创建第一个聚会</a>
+        {% endif %}
+    </div>
+{% endif %}
+
+<div style="margin-top: 60px;">
+    <h2 style="font-size: 28px; margin-bottom: 25px; color: #3D2914;">👥 成员展示</h2>
+    <div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px;">
+        {% for user in users[:8] %}
+            <a href="{{ url_for('member_detail', user_id=user.id) }}" style="text-decoration: none; color: inherit; min-width: 200px;">
+                <div class="card" style="text-align: center; padding: 25px;">
+                    <img src="{{ user.avatar }}" alt="{{ user.nickname }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #FFD60A;">
+                    <h4 style="font-size: 18px; margin-bottom: 5px;">{{ user.nickname }}</h4>
+                    <p style="font-size: 14px; color: #9A8A7A;">酒量: {% for i in range(user.alcohol_level) %}🍺{% endfor %}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('members') }}" class="btn btn-secondary">查看全部成员 →</a>
+    </div>
+</div>
+
+<div style="margin-top: 60px; text-align: center; padding: 40px; background: linear-gradient(135deg, #FF9500, #FFBE78); border-radius: 20px; color: white;">
+    <h2 style="font-size: 28px; margin-bottom: 15px;">📸 精彩瞬间</h2>
+    <p style="margin-bottom: 25px;">记录每一次相聚的美好</p>
+    <a href="{{ url_for('gallery') }}" class="btn" style="background: white; color: #FF9500; padding: 15px 40px; font-size: 18px;">查看相册</a>
+</div>
+{% endblock %}
+
+{% block title %}首页 - 阳光聚会圈{% endblock %}
